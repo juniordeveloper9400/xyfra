@@ -1,0 +1,256 @@
+/* ==========================================================================
+   Mobile & tablet view
+   --------------------------------------------------------------------------
+   Every width-based breakpoint lives here, extracted out of App.css. Imported
+   AFTER App.css, so these rules beat equal-specificity base rules without
+   needing compound-selector tricks.
+
+   Ordered widest → narrowest, so each narrower block refines the one above it.
+
+   Breakpoints
+     1100px  large tablet / small laptop
+     1024px  the TV swaps to its colour-bar screen
+      900px  phone & tablet — nav collapses to the drawer, layouts go 1-column
+      560px  small phone — everything stacks
+   ========================================================================== */
+
+/* ==========================================================================
+   1100px — large tablet
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .hero-copy {
+    max-width: 540px;
+  }
+}
+
+/* ==========================================================================
+   900px — phone & tablet
+   ========================================================================== */
+@media (max-width: 900px) {
+  /* --- Navigation ------------------------------------------------------- */
+  .navbar {
+    gap: 12px;
+    padding: 14px max(20px, calc(50vw - 600px));
+  }
+
+  .nav-links,
+  .btn-connect.nav-cta {
+    display: none;
+  }
+
+  .nav-toggle,
+  .nav-close,
+  .nav-drawer,
+  .nav-backdrop {
+    display: flex;
+  }
+
+  /* --- Hero ------------------------------------------------------------- */
+  .hero-container {
+    padding: 100px max(20px, calc(50vw - 620px)) 32px;
+    /* The stack runs past one viewport here, so let it scroll normally rather
+       than pin from the bottom. */
+    position: relative;
+    bottom: auto;
+    height: auto;
+    min-height: 78svh;
+  }
+
+  /* The shot's devices sit right of centre; at this width panning left keeps
+     them in frame instead of cropping them off the edge. */
+  .hero-media img {
+    object-position: 72% center;
+  }
+
+  /* Portrait viewport — the copy sits over the whole frame, so the scrim has
+     to cover top-to-bottom rather than left-to-right. */
+  .hero-media::after {
+    background: linear-gradient(
+      180deg,
+      rgba(5, 11, 9, 0.88) 0%,
+      rgba(5, 11, 9, 0.78) 45%,
+      rgba(5, 11, 9, 0.9) 100%
+    );
+  }
+
+  .hero-copy {
+    max-width: none;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .hero-headline {
+    max-width: 18ch;
+  }
+
+  .hero-trust {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 0;
+    margin-top: 28px;
+  }
+
+  .hero-description {
+    max-width: 52ch;
+  }
+
+  .hero-capabilities {
+    justify-content: center;
+  }
+
+  /* Row is centred now, so the first item needs its padding back */
+  .capability:first-child {
+    padding-left: 22px;
+  }
+
+  /* Dividers only make sense within a row, and item 3 starts the second row */
+  .trust-item:nth-child(3) {
+    border-left: none;
+  }
+
+  /* --- Inner pages ------------------------------------------------------ */
+  .page {
+    padding-top: 76px;
+  }
+
+  .section-container {
+    padding: 56px 20px;
+  }
+
+  .section-header {
+    margin-bottom: 34px;
+  }
+
+  /* --- Home sections ---------------------------------------------------- */
+  .stats-band {
+    padding: 34px max(20px, calc(50vw - 600px));
+  }
+
+  .stats-band-inner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 0;
+  }
+
+  /* Item 3 opens the second row, so its divider would float mid-air */
+  .stat-block:nth-child(3) {
+    border-left: none;
+  }
+
+  .process-step::after {
+    display: none;
+  }
+
+  .global-reach-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  /* --- Contact ---------------------------------------------------------- */
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   700px — narrow tablet / large phone
+   ========================================================================== */
+@media (max-width: 700px) {
+  .svc-card-grid,
+  .works-grid,
+  .testimonial-grid,
+  .reasons-grid,
+  .process-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .filter-bar {
+    /* Swipe the filters sideways rather than wrapping to three rows */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-btn {
+    flex: none;
+  }
+}
+
+/* ==========================================================================
+   560px — small phone
+   ========================================================================== */
+@media (max-width: 560px) {
+  .hero-container {
+    padding-top: 78px;
+  }
+
+  .hero-capabilities {
+    gap: 18px 0;
+  }
+
+  .capability {
+    flex: 0 0 50%;
+    padding: 2px 10px;
+  }
+
+  .capability:first-child,
+  .capability:nth-child(3) {
+    padding-left: 10px;
+  }
+
+  .capability:nth-child(3) {
+    border-left: none;
+  }
+
+  .hero-trust {
+    grid-template-columns: 1fr;
+  }
+
+  .trust-item + .trust-item {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  .hero-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .stats-band-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-block + .stat-block {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    padding-top: 22px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .industry-panel {
+    padding: 22px 16px;
+  }
+
+  .section-container {
+    padding: 44px 16px;
+  }
+}
+
+/* ==========================================================================
+   600px — form rows
+   ========================================================================== */
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
