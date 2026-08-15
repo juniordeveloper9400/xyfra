@@ -27,13 +27,13 @@
   --shadow-green: 0 10px 30px -10px rgba(0, 151, 110, 0.4);
   --glow-green-lg: 0 0 50px rgba(0, 179, 121, 0.25);
 
-  /* Inter for text, Inter Tight for headings — same superfamily, so they share
-     skeletons and sit together cleanly. Inter Tight is the display cut: tighter
-     sidebearings drawn for large sizes, where Inter alone reads loose. */
-  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --heading: 'Inter Tight', 'Inter', sans-serif;
-  --display: 'Inter Tight', 'Inter', sans-serif;
-  --mono: 'JetBrains Mono', monospace;
+  /* IBM Plex — drawn for a technology company, and it shows: engineered
+     joints, flat terminals, an unmistakable double-storey g. One superfamily
+     across text and mono, so the two never look bolted together. */
+  --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --heading: 'IBM Plex Sans', sans-serif;
+  --display: 'IBM Plex Sans', sans-serif;
+  --mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
 
   /* Word-level tone system — see .tone-* in App.css */
   --tone-green: var(--green-glow);
@@ -47,9 +47,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Inter's disambiguated forms: single-storey a stays off, but the straight-
-     tailed l and open-tailed digits read far better in code-adjacent copy. */
-  font-feature-settings: 'cv05' 1, 'cv11' 1, 'ss03' 1;
   font-variant-ligatures: contextual;
 }
 
@@ -59,6 +56,18 @@
 .work-metric-chip,
 .modal-metric-badge {
   font-variant-numeric: tabular-nums;
+}
+
+/* Eyebrows, tags and metric chips set in Plex Mono. Small uppercase labels in
+   a monospace is the visual shorthand of engineering-led brands, and it gives
+   the single-family palette a second texture without a second typeface. */
+.badge,
+.section-tag,
+.service-badge,
+.modal-metric-badge {
+  font-family: var(--mono);
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 * {
@@ -84,10 +93,13 @@ body {
   overflow-x: hidden;
 }
 
+/* Full-bleed. Section backgrounds, borders and the footer have to reach both
+   edges of the screen, so the width cap lives on the inner containers
+   (.section-container, .stats-band-inner) rather than up here — capping #root
+   left black gutters beside every banded section on wide monitors. */
 #root {
-  width: 1200px;
-  max-width: 100%;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -117,9 +129,9 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   color: var(--white);
   margin: 0;
-  /* Inter Tight is already close-set; a light negative tightens it just enough
-     at display sizes without the letters colliding. */
-  letter-spacing: -0.015em;
+  /* Plex is a normal-width grotesque already set fairly tight, so it needs
+     only a whisper of negative — far less than the geometric it replaces. */
+  letter-spacing: -0.012em;
 }
 
 /* Small headings need none of it — negative tracking hurts legibility below
@@ -131,7 +143,7 @@ h4, h5, h6 {
 h1 {
   font-size: 3.5rem;
   line-height: 1.1;
-  letter-spacing: -0.022em;
+  letter-spacing: -0.018em;
   background: var(--accent-gradient);
   -webkit-background-clip: text;
   background-clip: text;

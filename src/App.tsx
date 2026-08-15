@@ -15,7 +15,9 @@ export default function App() {
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="services" element={<ServicesPage />} />
-        <Route path="works" element={<WorksPage />} />
+        <Route path="case-studies" element={<WorksPage />} />
+        {/* Old URL kept alive so existing links don't 404 */}
+        <Route path="works" element={<Navigate to="/case-studies" replace />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="contact" element={<ContactPage />} />
         {/* Unknown URLs fall back to the home page */}

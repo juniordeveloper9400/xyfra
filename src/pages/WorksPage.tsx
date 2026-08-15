@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SectionHeader from '../components/SectionHeader'
-import { categoryTabs, type ServiceCategory } from '../data/services'
-import { worksData, type WorkItem } from '../data/works'
+import { workCategories, worksData, type WorkCategory, type WorkItem } from '../data/works'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 export default function WorksPage() {
-  const [activeTab, setActiveTab] = useState<ServiceCategory | 'all'>('all')
+  const [activeTab, setActiveTab] = useState<WorkCategory | 'all'>('all')
   const [selectedWork, setSelectedWork] = useState<WorkItem | null>(null)
 
   useScrollReveal([activeTab])
@@ -18,65 +17,65 @@ export default function WorksPage() {
     <div className="page">
       <section className="section-container">
         <SectionHeader
-          tag="PROJECT SHOWCASE"
-          title={[['Our', 'light'], ['Delivered', 'green'], ['Works', 'box']]}
-          subtitle="Explore real projects engineered by Xyfra Technologies across Software, Mobile Apps, Websites, Marketing, and SEO."
+          tag="SELECTED CASE STUDIES"
+          title={[['Work', 'light'], ['We Have', 'green'], ['Delivered', 'box']]}
+          subtitle="Browse by what we built — websites, online stores, web apps, mobile apps and campaigns. Pick the category closest to your own project."
         />
 
         <div className="filter-bar" data-reveal>
-          {categoryTabs.map((tab) => (
+          {workCategories.map((tab) => (
             <button
               key={tab.id}
               className={`filter-btn${activeTab === tab.id ? ' active' : ''}`}
               onClick={() => setActiveTab(tab.id)}
             >
-              {tab.id === 'all' ? 'All Works' : tab.label}
+              {tab.label}
             </button>
           ))}
         </div>
 
         <div className="works-grid asymmetrical">
           {filtered.map((work, idx) => (
-            <div
+            <button
+              type="button"
               key={work.id}
-              className="work-card"
+              className="pcard"
               data-reveal
               style={{ '--i': idx % 3 } as React.CSSProperties}
               onClick={() => setSelectedWork(work)}
             >
-              <div className="work-preview-banner" style={{ background: work.imageBg }}>
-                <span className="work-badge-top">{work.serviceLabel}</span>
-                <div className="work-banner-center">
-                  <span className="work-banner-icon">{work.icon}</span>
-                  <span className="work-client-name">{work.client}</span>
-                </div>
-                <span className="work-metric-chip">{work.metricBadge}</span>
-              </div>
+              <img className="pcard-shot" src={work.image} alt={`${work.client} ${work.typeLabel}`} loading="lazy" />
 
-              <div className="work-card-content">
-                <h3 className="work-title">{work.title}</h3>
-                <p className="work-desc">{work.description}</p>
+              <span className="pcard-type">{work.typeLabel}</span>
+              <span className="pcard-metric">{work.metricBadge}</span>
 
-                <div className="work-highlights">
-                  {work.highlights.map((h, i) => (
-                    <span key={i} className="work-highlight-pill">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
+              <div className="pcard-body">
+                <span className="pcard-client">{work.client}</span>
+                <h3 className="pcard-title">{work.title}</h3>
+
+                <div className="pcard-reveal">
+                  <div>
+                    <p className="pcard-desc">{work.description}</p>
+
+                    <div className="pcard-tags">
+                      {work.highlights.map((h) => (
+                        <span key={h} className="pcard-tag">
+                          {h}
+                        </span>
+                      ))}
+                    </div>
+
+                    <span className="pcard-cta">
+                      View project
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
                       </svg>
-                      <span>{h}</span>
                     </span>
-                  ))}
-                </div>
-
-                <div className="work-card-footer">
-                  <span className="work-action-text">Explore Project Details</span>
-                  <svg className="work-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
+                  </div>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
@@ -92,10 +91,14 @@ export default function WorksPage() {
               </svg>
             </button>
 
-            <div className="modal-header-banner" style={{ background: selectedWork.imageBg }}>
-              <span className="service-tag">{selectedWork.serviceLabel}</span>
+            <div className="modal-header-banner">
+              <img
+                className="work-shot"
+                src={selectedWork.image}
+                alt={`${selectedWork.client} ${selectedWork.typeLabel}`}
+              />
+              <span className="service-tag">{selectedWork.typeLabel}</span>
               <div className="modal-title-box">
-                <span className="modal-icon">{selectedWork.icon}</span>
                 <h2>{selectedWork.title}</h2>
               </div>
               <span className="modal-metric-badge">{selectedWork.metricBadge}</span>

@@ -65,8 +65,19 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <Link to="/contact" className="btn-connect nav-cta">
-          <span>Get a Quote</span>
+        {/* Tilting CTA — adapted from Uiverse.io by MuhammadHasann. The six
+            transparent zones tile the button in a 3x2 grid; whichever one the
+            pointer is over decides which corner the face tips away from. */}
+        <Link to="/contact" className="container-button nav-cta">
+          <span className="hover bt-1" aria-hidden="true" />
+          <span className="hover bt-2" aria-hidden="true" />
+          <span className="hover bt-3" aria-hidden="true" />
+          <span className="hover bt-4" aria-hidden="true" />
+          <span className="hover bt-5" aria-hidden="true" />
+          <span className="hover bt-6" aria-hidden="true" />
+          <span className="btn-face">
+            <span className="btn-face-label">Get a Quote</span>
+          </span>
         </Link>
 
         <button

@@ -34,7 +34,7 @@
   }
 
   .nav-links,
-  .btn-connect.nav-cta {
+  .container-button.nav-cta {
     display: none;
   }
 
@@ -126,14 +126,10 @@
     padding: 34px max(20px, calc(50vw - 600px));
   }
 
+  /* Three stats still fit on one row at this width, so no wrap and no
+     stranded divider — just tighten the gap. */
   .stats-band-inner {
-    grid-template-columns: repeat(2, 1fr);
     gap: 28px 0;
-  }
-
-  /* Item 3 opens the second row, so its divider would float mid-air */
-  .stat-block:nth-child(3) {
-    border-left: none;
   }
 
   .process-step::after {
@@ -218,9 +214,13 @@
     border-top: 1px solid rgba(255, 255, 255, 0.09);
   }
 
-  .hero-cta {
+  .hero-cta-wrap {
+    display: block;
     width: 100%;
-    justify-content: center;
+  }
+
+  .hero-cta-wrap .glass-btn span {
+    text-align: center;
   }
 
   .stats-band-inner {

@@ -48,7 +48,7 @@ export default function ContactPage() {
                 <div className="info-icon">✉️</div>
                 <div>
                   <span className="info-label">Direct Email</span>
-                  <a href="mailto:contact@xyfra.tech" className="info-val">contact@xyfra.tech</a>
+                  <a href="mailto:xyfratechnologies@gmail.com" className="info-val">xyfratechnologies@gmail.com</a>
                 </div>
               </div>
 
@@ -56,7 +56,7 @@ export default function ContactPage() {
                 <div className="info-icon">📞</div>
                 <div>
                   <span className="info-label">Phone Hotline</span>
-                  <span className="info-val">+1 (800) 555-XYFRA</span>
+                  <a href="tel:+917306324011" className="info-val">+91 73063 24011</a>
                 </div>
               </div>
 

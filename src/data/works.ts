@@ -1,89 +1,110 @@
-import type { ServiceCategory } from './services'
+import ahalia from '../assets/ahalia.png'
+import cleanmycar from '../assets/cleanmycar.png'
+import freshandco from '../assets/freshandco.png'
+import pompi from '../assets/pompi.png'
+import tripnix from '../assets/tripnix.png'
+import zcafe from '../assets/zcafe.png'
+
+/* Works are classified by what was built — websites, storefronts, mobile apps
+   — not by which service line sold it. A visitor browsing the portfolio is
+   looking for something resembling their own project, which is a question
+   about the artefact, not the department. */
+export type WorkCategory = 'website' | 'ecommerce' | 'mobile'
 
 export interface WorkItem {
   id: string
   title: string
-  category: ServiceCategory
-  serviceLabel: string
+  category: WorkCategory
+  /* Shown on the card banner — the project type, not the service name */
+  typeLabel: string
   client: string
-  imageBg: string
-  icon: string
+  /* Screenshot of the shipped product, imported so Vite fingerprints it */
+  image: string
   description: string
   highlights: string[]
+  /* Describes what the build is, not a performance claim. These are real
+     client projects, so nothing here asserts a number we cannot stand behind. */
   metricBadge: string
 }
 
+export const workCategories: { id: WorkCategory | 'all'; label: string }[] = [
+  { id: 'all', label: 'All Projects' },
+  { id: 'website', label: 'Websites' },
+  { id: 'ecommerce', label: 'E-Commerce' },
+  { id: 'mobile', label: 'Mobile Apps' },
+]
+
 export const worksData: WorkItem[] = [
   {
-    id: 'work-software-1',
-    title: 'Apex Logistics SaaS & Fleet Software',
-    category: 'software',
-    serviceLabel: 'Software Development',
-    client: 'Apex Global Logistics',
-    imageBg: 'linear-gradient(135deg, rgba(0, 151, 110, 0.4) 0%, rgba(10, 30, 24, 0.95) 100%)',
-    icon: '💻',
-    description: 'Custom enterprise ERP software managing real-time fleet dispatch, route optimization, telemetry, and automated invoicing.',
-    highlights: ['Microservices Architecture', 'Automated Dispatch Rules', 'Real-Time Fleet Telemetry'],
-    metricBadge: '5,000+ Active Fleet Units',
+    id: 'work-ahalia',
+    title: 'Ahalia Fashion Storefront',
+    category: 'ecommerce',
+    typeLabel: 'E-Commerce',
+    client: 'Ahalia',
+    image: ahalia,
+    description:
+      'Mobile-first storefront for a contemporary womenswear label, built around collection browsing with a wishlist and bag running through every screen.',
+    highlights: ['Wishlist & Bag Flow', 'New Arrival / Best Seller Badges', 'Mobile-First Product Grid'],
+    metricBadge: 'Fashion Storefront',
   },
   {
-    id: 'work-app-1',
-    title: 'NovaPay Mobile Banking App',
-    category: 'app',
-    serviceLabel: 'App Development',
-    client: 'NovaPay Financial',
-    imageBg: 'linear-gradient(135deg, rgba(79, 224, 176, 0.3) 0%, rgba(5, 11, 9, 0.95) 100%)',
-    icon: '📱',
-    description: 'Sleek iOS & Android mobile app featuring biometric authentication, instant P2P transfers, and multi-currency digital wallet.',
-    highlights: ['Cross-Platform Mobile App', 'Biometric Auth & Security', 'Instant Push Notifications'],
-    metricBadge: '4.9★ App Store Rating',
+    id: 'work-zcafe',
+    title: 'Z Cafe Premix Store',
+    category: 'ecommerce',
+    typeLabel: 'E-Commerce',
+    client: 'Z Cafe',
+    image: zcafe,
+    description:
+      'Storefront for a coffee and tea premix brand, with delivery-area selection, category carousels and a wishlist-to-cart path on a bottom tab layout.',
+    highlights: ['Delivery Area Selection', 'Category Carousels', 'Wishlist to Cart'],
+    metricBadge: 'Coffee & Tea Premix',
   },
   {
-    id: 'work-website-1',
-    title: 'Velox E-Commerce Web Storefront',
+    id: 'work-cleanmycar',
+    title: 'CleanMyCar Detailing Site',
     category: 'website',
-    serviceLabel: 'Website Development',
-    client: 'Velox Luxury Apparel',
-    imageBg: 'linear-gradient(135deg, rgba(0, 179, 121, 0.35) 0%, rgba(12, 43, 34, 0.95) 100%)',
-    icon: '🌐',
-    description: 'Ultra-fast web storefront with headless CMS integration, 1.1-second page loads, and mobile checkout optimization.',
-    highlights: ['Ultra-Fast Modern Web App', '100/100 Core Web Vitals', 'Headless Commerce Engine'],
-    metricBadge: '1.1s Page Load Speed',
+    typeLabel: 'Website',
+    client: 'CleanMyCar',
+    image: cleanmycar,
+    description:
+      'Doorstep car-detailing service site with a full treatment catalogue, per-package pricing and one-tap WhatsApp enquiry from any point on the page.',
+    highlights: ['Service & Pricing Catalogue', 'One-Tap WhatsApp Enquiry', 'High-Contrast Brand Theme'],
+    metricBadge: 'Doorstep Detailing',
   },
   {
-    id: 'work-marketing-1',
-    title: 'GrowthEngine PPC Ad Campaign',
-    category: 'marketing',
-    serviceLabel: 'Digital Marketing',
-    client: 'GrowthEngine B2B',
-    imageBg: 'linear-gradient(135deg, rgba(0, 151, 110, 0.45) 0%, rgba(5, 11, 9, 0.95) 100%)',
-    icon: '📈',
-    description: 'Data-driven Google & Meta paid advertising campaigns driving high-quality B2B lead generation and retargeting automation.',
-    highlights: ['Multi-Channel Retargeting', 'High-Converting Landing Pages', 'GA4 Attribution Setup'],
-    metricBadge: '4.2x ROAS Delivered',
+    id: 'work-freshandco',
+    title: 'Fresh & Co Brand Site',
+    category: 'website',
+    typeLabel: 'Website',
+    client: 'Fresh & Co',
+    image: freshandco,
+    description:
+      'Product-led site for a half-cooked chapathi and ready-meal brand, built around packshot storytelling and an ingredients-first pitch.',
+    highlights: ['Packshot Hero Carousel', 'Ingredient & Benefit Sections', 'Retail Brand Styling'],
+    metricBadge: 'Packaged Food Brand',
   },
   {
-    id: 'work-seo-1',
-    title: 'VaultX Financial SEO Domination',
-    category: 'seo',
-    serviceLabel: 'SEO Work',
-    client: 'VaultX Capital',
-    imageBg: 'linear-gradient(135deg, rgba(79, 224, 176, 0.25) 0%, rgba(10, 30, 24, 0.95) 100%)',
-    icon: '🔍',
-    description: 'Complete technical SEO overhaul, schema markup strategy, and link building that secured #1 positions for high-intent financial keywords.',
-    highlights: ['Technical Schema Markup', 'Authority Link Building', '#1 Rank for 40+ Keywords'],
-    metricBadge: '+380% Organic Traffic',
+    id: 'work-pompi',
+    title: 'Pompi Travels Package Site',
+    category: 'website',
+    typeLabel: 'Website',
+    client: 'Pompi Travels',
+    image: pompi,
+    description:
+      'Tour-package site opening on a full-bleed destination feature, with package search, an itinerary stop slider and customer login.',
+    highlights: ['Destination & Package Search', 'Itinerary Stop Slider', 'Customer Login'],
+    metricBadge: 'Tour Package Booking',
   },
   {
-    id: 'work-app-2',
-    title: 'PulseCare Telehealth Mobile App',
-    category: 'app',
-    serviceLabel: 'App Development',
-    client: 'PulseCare Health Systems',
-    imageBg: 'linear-gradient(135deg, rgba(0, 179, 121, 0.35) 0%, rgba(10, 30, 24, 0.95) 100%)',
-    icon: '🩺',
-    description: 'HIPAA-compliant mobile application providing virtual doctor consultations, electronic prescriptions, and medical record syncing.',
-    highlights: ['Encrypted Mobile App', 'HIPAA Consultation Room', 'Digital Prescription Sync'],
-    metricBadge: '100k+ App Downloads',
+    id: 'work-tripnix',
+    title: 'Tripnix Bus & Car Booking App',
+    category: 'mobile',
+    typeLabel: 'Mobile App',
+    client: 'Tripnix',
+    image: tripnix,
+    description:
+      'Fleet booking app for bus and car operators — date-strip trip search, filtering by travel agency, and an upcoming-journey tracker on the home tab.',
+    highlights: ['Date-Strip Trip Search', 'Multi-Agency Filtering', 'Upcoming Trip Tracking'],
+    metricBadge: 'Bus & Car Management',
   },
 ]

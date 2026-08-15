@@ -12,7 +12,8 @@ export interface ServiceItem {
   stats: { value: string; label: string }[]
 }
 
-/* Shared by the services page filter bar and the works page */
+/* Services page filter bar. The works page has its own set, keyed by project
+   type rather than service line — see workCategories in ./works. */
 export const categoryTabs: { id: ServiceCategory | 'all'; label: string }[] = [
   { id: 'all', label: 'All' },
   { id: 'software', label: 'Software Dev' },

@@ -13,11 +13,8 @@ import {
   testimonials,
 } from '../data/home'
 import { servicesData } from '../data/services'
-import { worksData } from '../data/works'
+import { workCategories, worksData, type WorkCategory, type WorkItem } from '../data/works'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-
-/* One per service line, so the preview covers the full range of work */
-const featuredWorks = worksData.slice(0, 3)
 
 /* Rotated slowly in the hero. Each is a complete positioning statement, one
    per service line, so the cycle walks through the whole offering. */
@@ -31,8 +28,13 @@ const heroHeadlines = [
 
 export default function HomePage() {
   const [headlineIndex, setHeadlineIndex] = useState(0)
+  const [activeTab, setActiveTab] = useState<WorkCategory | 'all'>('all')
+  const [selectedWork, setSelectedWork] = useState<WorkItem | null>(null)
 
-  useScrollReveal()
+  useScrollReveal([activeTab])
+
+  const filtered =
+    activeTab === 'all' ? worksData : worksData.filter((w) => w.category === activeTab)
 
   /* Slow rotation — long enough to read a full line twice over before it moves */
   useEffect(() => {
@@ -83,13 +85,15 @@ export default function HomePage() {
             ))}
           </ul>
 
-          <Link to="/contact" className="hero-cta">
-            <span>Let&apos;s Build Something Great</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </Link>
+          {/* Liquid-glass CTA — adapted from Uiverse.io by shokat_2650. The
+              shadow is a separate blurred sibling rather than a box-shadow so
+              it can shift and sharpen independently of the pill on press. */}
+          <div className="button-wrap hero-cta-wrap">
+            <Link to="/contact" className="glass-btn">
+              <span>Let&apos;s Build Something Great</span>
+            </Link>
+            <div className="button-shadow" aria-hidden="true"></div>
+          </div>
         </div>
 
         <ul className="hero-trust">
@@ -116,18 +120,26 @@ export default function HomePage() {
             subtitle="End-to-end digital engineering and marketing strategies built for speed, conversion, and market dominance."
           />
 
-          <div className="svc-card-grid">
-            {servicesData.map((service, idx) => (
-              <Link
-                to="/services"
-                key={service.id}
-                className="svc-card-link"
-                data-reveal
-                style={{ '--i': idx % 3 } as React.CSSProperties}
-              >
-                <ServiceCard service={service} />
-              </Link>
-            ))}
+          {/* One drifting row. The list is rendered twice so the track can loop
+              without a seam — the second pass is a visual duplicate, so it is
+              hidden from screen readers and skipped by the tab order. */}
+          <div className="svc-marquee" data-reveal>
+            <div className="svc-marquee-track">
+              {[...servicesData, ...servicesData].map((service, idx) => {
+                const isClone = idx >= servicesData.length
+                return (
+                  <Link
+                    to="/services"
+                    key={`${service.id}-${idx}`}
+                    className="svc-card-link"
+                    aria-hidden={isClone || undefined}
+                    tabIndex={isClone ? -1 : undefined}
+                  >
+                    <ServiceCard service={service} />
+                  </Link>
+                )
+              })}
+            </div>
           </div>
 
         </section>
@@ -145,51 +157,69 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Selected work */}
+        {/* Latest works */}
         <section className="section-container">
           <SectionHeader
-            tag="SELECTED WORK"
-            title={[['Projects', 'light'], ['We Have', 'green'], ['Shipped', 'box']]}
-            subtitle="A sample of platforms, apps and campaigns delivered for clients across logistics, finance and retail."
+            tag="OUR LATEST WORK"
+            title={[['Projects', 'light'], ['We Have', 'green'], ['Delivered', 'box']]}
+            subtitle="Browse by what we built — websites, online stores, mobile apps, and more. Pick the category closest to your own project."
           />
 
-          <div className="works-grid asymmetrical">
-            {featuredWorks.map((work, idx) => (
-              <Link
-                to="/works"
-                key={work.id}
-                className="work-card"
-                data-reveal
-                style={{ '--i': idx % 3 } as React.CSSProperties}
+          <div className="filter-bar" data-reveal>
+            {workCategories.map((tab) => (
+              <button
+                key={tab.id}
+                className={`filter-btn${activeTab === tab.id ? ' active' : ''}`}
+                onClick={() => setActiveTab(tab.id)}
               >
-                <div className="work-preview-banner" style={{ background: work.imageBg }}>
-                  <span className="work-badge-top">{work.serviceLabel}</span>
-                  <div className="work-banner-center">
-                    <span className="work-banner-icon">{work.icon}</span>
-                    <span className="work-client-name">{work.client}</span>
-                  </div>
-                  <span className="work-metric-chip">{work.metricBadge}</span>
-                </div>
-
-                <div className="work-card-content">
-                  <h3 className="work-title">{work.title}</h3>
-                  <p className="work-desc">{work.description}</p>
-                  <div className="work-card-footer">
-                    <span className="work-action-text">View Case Study</span>
-                    <svg className="work-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </div>
-                </div>
-              </Link>
+                {tab.label}
+              </button>
             ))}
           </div>
 
-          <div className="section-cta" data-reveal>
-            <Link to="/works" className="btn btn-secondary">
-              See All Projects
-            </Link>
+          <div className="works-grid asymmetrical">
+            {filtered.map((work, idx) => (
+              <button
+                type="button"
+                key={work.id}
+                className="pcard"
+                data-reveal
+                style={{ '--i': idx % 3 } as React.CSSProperties}
+                onClick={() => setSelectedWork(work)}
+              >
+                <img className="pcard-shot" src={work.image} alt={`${work.client} ${work.typeLabel}`} loading="lazy" />
+
+                <span className="pcard-type">{work.typeLabel}</span>
+                <span className="pcard-metric">{work.metricBadge}</span>
+
+                <div className="pcard-body">
+                  <span className="pcard-client">{work.client}</span>
+                  <h3 className="pcard-title">{work.title}</h3>
+
+                  <div className="pcard-reveal">
+                    <div>
+                      <p className="pcard-desc">{work.description}</p>
+
+                      <div className="pcard-tags">
+                        {work.highlights.map((h) => (
+                          <span key={h} className="pcard-tag">
+                            {h}
+                          </span>
+                        ))}
+                      </div>
+
+                      <span className="pcard-cta">
+                        View project
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                          <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            ))}
           </div>
         </section>
 
@@ -303,6 +333,58 @@ export default function HomePage() {
           </div>
         </section>
       </div>
+
+      {/* Project detail modal */}
+      {selectedWork && (
+        <div className="modal-backdrop" onClick={() => setSelectedWork(null)}>
+          <div className="work-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={() => setSelectedWork(null)}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+
+            <div className="modal-header-banner">
+              <img
+                className="work-shot"
+                src={selectedWork.image}
+                alt={`${selectedWork.client} ${selectedWork.typeLabel}`}
+              />
+              <span className="service-tag">{selectedWork.typeLabel}</span>
+              <div className="modal-title-box">
+                <h2>{selectedWork.title}</h2>
+              </div>
+              <span className="modal-metric-badge">{selectedWork.metricBadge}</span>
+            </div>
+
+            <div className="modal-body">
+              <p className="modal-client"><strong>Client Partner:</strong> {selectedWork.client}</p>
+              <p className="modal-desc">{selectedWork.description}</p>
+
+              <div className="modal-highlights-section">
+                <h4>Key Accomplishments Delivered:</h4>
+                <ul>
+                  {selectedWork.highlights.map((h, i) => (
+                    <li key={i}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="modal-footer-actions">
+                <Link to="/contact" className="btn btn-primary" onClick={() => setSelectedWork(null)}>
+                  Request Similar Solution
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

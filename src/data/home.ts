@@ -2,9 +2,8 @@
    mean touching layout. */
 
 export const companyStats = [
-  { value: '120+', label: 'Projects Delivered', caption: 'Across five service lines' },
-  { value: '60+', label: 'Active Clients', caption: 'From startups to enterprise' },
-  { value: '8', label: 'Years Building', caption: 'Shipping since 2018' },
+  { value: '10+', label: 'Projects Delivered', caption: 'Across five service lines' },
+  { value: '15+', label: 'Active Clients', caption: 'From startups to enterprise' },
   { value: '24/7', label: 'Support Coverage', caption: 'Monitored, patched, on call' },
 ]
 
