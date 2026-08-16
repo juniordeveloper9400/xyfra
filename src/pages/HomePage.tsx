@@ -94,6 +94,13 @@ export default function HomePage() {
             </Link>
             <div className="button-shadow" aria-hidden="true"></div>
           </div>
+
+          <div className="hero-scroll-hint" aria-hidden="true">
+            <span>Scroll to explore</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
 
         <ul className="hero-trust">
@@ -129,7 +136,7 @@ export default function HomePage() {
                 const isClone = idx >= servicesData.length
                 return (
                   <Link
-                    to="/services"
+                    to={`/services?tab=${service.category}`}
                     key={`${service.id}-${idx}`}
                     className="svc-card-link"
                     aria-hidden={isClone || undefined}
@@ -178,7 +185,7 @@ export default function HomePage() {
           </div>
 
           <div className="works-grid asymmetrical">
-            {filtered.map((work, idx) => (
+            {filtered.slice(0, 3).map((work, idx) => (
               <button
                 type="button"
                 key={work.id}
@@ -187,7 +194,18 @@ export default function HomePage() {
                 style={{ '--i': idx % 3 } as React.CSSProperties}
                 onClick={() => setSelectedWork(work)}
               >
-                <img className="pcard-shot" src={work.image} alt={`${work.client} ${work.typeLabel}`} loading="lazy" />
+                {work.video ? (
+                  <video
+                    className="pcard-shot"
+                    src={work.video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  />
+                ) : (
+                  <img className="pcard-shot" src={work.image} alt={`${work.client} ${work.typeLabel}`} loading="lazy" />
+                )}
 
                 <span className="pcard-type">{work.typeLabel}</span>
                 <span className="pcard-metric">{work.metricBadge}</span>
@@ -220,6 +238,16 @@ export default function HomePage() {
                 </div>
               </button>
             ))}
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '36px' }} data-reveal>
+            <Link to="/works" className="btn btn-secondary">
+              View All Projects
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </Link>
           </div>
         </section>
 
@@ -261,7 +289,7 @@ export default function HomePage() {
                 className="reason-card"
                 key={item.title}
                 data-reveal
-                style={{ '--i': idx % 2 } as React.CSSProperties}
+                style={{ '--i': idx % 3 } as React.CSSProperties}
               >
                 <span className="reason-icon" aria-hidden="true">{item.icon}</span>
                 <div>
@@ -306,10 +334,18 @@ export default function HomePage() {
                 <blockquote>{item.quote}</blockquote>
                 <figcaption className="testimonial-author">
                   <span className="author-avatar" aria-hidden="true">{item.initials}</span>
-                  <span className="author-meta">
+                  <div className="author-meta">
                     <strong>{item.name}</strong>
                     <span>{item.role}</span>
-                  </span>
+                    {item.phone && (
+                      <a href={`tel:${item.phone.replace(/\s+/g, '')}`} className="author-phone">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <span>{item.phone}</span>
+                      </a>
+                    )}
+                  </div>
                 </figcaption>
               </figure>
             ))}
@@ -346,11 +382,22 @@ export default function HomePage() {
             </button>
 
             <div className="modal-header-banner">
-              <img
-                className="work-shot"
-                src={selectedWork.image}
-                alt={`${selectedWork.client} ${selectedWork.typeLabel}`}
-              />
+              {selectedWork.video ? (
+                <video
+                  className="work-shot"
+                  src={selectedWork.video}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
+              ) : (
+                <img
+                  className="work-shot"
+                  src={selectedWork.image}
+                  alt={`${selectedWork.client} ${selectedWork.typeLabel}`}
+                />
+              )}
               <span className="service-tag">{selectedWork.typeLabel}</span>
               <div className="modal-title-box">
                 <h2>{selectedWork.title}</h2>

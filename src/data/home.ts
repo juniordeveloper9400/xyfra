@@ -47,9 +47,9 @@ export const differentiators = [
     text: 'You approve a written scope with a number against it. Change requests are quoted separately, never billed by surprise.',
   },
   {
-    icon: '🧩',
-    title: 'You Own Everything',
-    text: 'Source code, infrastructure, accounts and documentation are yours from the first commit. No vendor lock-in, ever.',
+    icon: '⏱️',
+    title: 'Guaranteed On-Time Delivery',
+    text: 'We set firm milestone schedules from day one and deliver your production-ready product on or before the committed date with zero launch delays.',
   },
 ]
 
@@ -58,6 +58,7 @@ export const industries = [
   'Healthcare',
   'Logistics',
   'E-Commerce',
+  'ERP & Enterprise Systems',
   'SaaS Platforms',
   'Real Estate',
   'Education',
@@ -67,23 +68,26 @@ export const industries = [
 export const testimonials = [
   {
     quote:
-      'They rebuilt our dispatch platform in four months after two agencies failed. Uptime went from embarrassing to invisible, and the handover documentation was genuinely usable.',
-    name: 'Marcus Bell',
-    role: 'CTO, Apex Global Logistics',
+      'The 3D interactive engineering experience and SEO architecture Xyfra built for HydraMech completely transformed how clients explore our machinery. Inquiries surged within weeks and our search visibility reached top rankings.',
+    name: 'Mubashir',
+    role: 'Managing Director, HydraMech',
+    phone: '+91 79944 66822',
     initials: 'MB',
   },
   {
     quote:
-      'The mobile app shipped on the date they committed to in the first proposal. That has never happened to us before, with anyone.',
-    name: 'Priya Raghunathan',
-    role: 'Head of Product, NovaPay',
+      'Our tour package bookings and destination inquiries grew dramatically right after launching the site. The interactive itinerary sliders and smooth package search give our travelers complete confidence to book.',
+    name: 'Pramod',
+    role: 'Founder, Pompi Travels',
+    phone: '+91 94479 28593',
     initials: 'PR',
   },
   {
     quote:
-      'Organic traffic is up 380% and we are ranked first for the terms that actually convert. They showed their working the whole way through.',
-    name: 'Daniel Okafor',
-    role: 'Marketing Director, VaultX Capital',
-    initials: 'DO',
+      'The custom minimalist portfolio site Xyfra engineered delivered the exact aesthetic precision we needed. The dark visual tone, fluid typography, and micro-interactions make an unforgettable impression on every pitch.',
+    name: 'Muzammil',
+    role: 'Creative Lead & Designer',
+    phone: '+91 94005 25063',
+    initials: 'MZ',
   },
 ]

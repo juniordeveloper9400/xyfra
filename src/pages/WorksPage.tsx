@@ -44,7 +44,18 @@ export default function WorksPage() {
               style={{ '--i': idx % 3 } as React.CSSProperties}
               onClick={() => setSelectedWork(work)}
             >
-              <img className="pcard-shot" src={work.image} alt={`${work.client} ${work.typeLabel}`} loading="lazy" />
+              {work.video ? (
+                <video
+                  className="pcard-shot"
+                  src={work.video}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
+              ) : (
+                <img className="pcard-shot" src={work.image} alt={`${work.client} ${work.typeLabel}`} loading="lazy" />
+              )}
 
               <span className="pcard-type">{work.typeLabel}</span>
               <span className="pcard-metric">{work.metricBadge}</span>
@@ -92,11 +103,22 @@ export default function WorksPage() {
             </button>
 
             <div className="modal-header-banner">
-              <img
-                className="work-shot"
-                src={selectedWork.image}
-                alt={`${selectedWork.client} ${selectedWork.typeLabel}`}
-              />
+              {selectedWork.video ? (
+                <video
+                  className="work-shot"
+                  src={selectedWork.video}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
+              ) : (
+                <img
+                  className="work-shot"
+                  src={selectedWork.image}
+                  alt={`${selectedWork.client} ${selectedWork.typeLabel}`}
+                />
+              )}
               <span className="service-tag">{selectedWork.typeLabel}</span>
               <div className="modal-title-box">
                 <h2>{selectedWork.title}</h2>
